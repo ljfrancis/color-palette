@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+@layer base {
+  html,
+  body {
+    @apply dark:bg-trueGray-900;
+  }
+}
+
+a.hex-text-white {
+  color: white;
+}
+
+
+a.hex-text-black {
+  color: black;
+}
+
+
+a.hex-text-white:hover {
+  opacity: 0.8;
+}
+
+
+a.hex-text-black:hover {
+  opacity: 0.6;
+}
+
