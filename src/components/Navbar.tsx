@@ -144,7 +144,7 @@ export const Navbar = () => {
                       value={searchText}
                       onChange={handleSearchChange}
                       onFocus={showDropDown}
-                      className="searchBar border-2 border-slate-300 rounded-md p-2 mr-2"
+                      className="searchBar border-2 border-slate-300 rounded-md p-2 mr-2 w-40"
                     />
                     {
                       showSearchPalette && (
