@@ -23,26 +23,31 @@ export const Navbar = () => {
 
   const [searchText, setSearchText] = useState('');
   const [showSearchPalette, setShowSearchPalette] = useState(false);
-  const [color, setColor] = useColor("");
+  const [color, setColor] = useColor("#000000");
   const { theme, setTheme } = useTheme();
 
-  window.addEventListener("click", (e) => {
-    const target = (e?.target as HTMLInputElement)
-    if(!target?.className || typeof target.className != 'string') return;
-    const classNames = ["searchBar", "rcp-saturation", "rcp-hue", "rcp-body", "rcp-section", "rcp-field-label", "rcp-fields", "rcp-alpha-cursor", "rcp-alpha"];
 
-    let hideDropDown = true;
-    if(["hex", "rgb", "hsv"].includes(target.id)) {
-      hideDropDown = false;
-    } 
+  useEffect(() => {
+    if(typeof window !== "undefined") {
+      window.addEventListener("click", (e) => {
+        const target = (e?.target as HTMLInputElement)
+        if(!target?.className || typeof target.className != 'string') return;
+        const classNames = ["searchBar", "rcp-saturation", "rcp-hue", "rcp-body", "rcp-section", "rcp-field-label", "rcp-fields", "rcp-alpha-cursor", "rcp-alpha"];
 
-    classNames.map(c => {
-      if(target.className.indexOf(c) > -1) hideDropDown = false;
-    })
+        let hideDropDown = true;
+        if(["hex", "rgb", "hsv"].includes(target.id)) {
+          hideDropDown = false;
+        } 
 
-    if(hideDropDown) setShowSearchPalette(false);
+        classNames.map(c => {
+          if(target.className.indexOf(c) > -1) hideDropDown = false;
+        })
 
-  });
+        if(hideDropDown) setShowSearchPalette(false);
+
+      });
+    }
+  }, []);
 
   const handleSearchChange = async (e) =>  {
     let cleanSearchText = e.target.value;
@@ -60,15 +65,21 @@ export const Navbar = () => {
     setShowSearchPalette(true);
   }
 
-  const hideDropDown = async (e) =>  {
-    if(theme === 'dark') {
-      document.getElementById("searchButton").style.backgroundColor = "white";
-      document.getElementById("searchButton").style.color = "black";
-    } else {
-      document.getElementById("searchButton").style.backgroundColor = "black";
-      document.getElementById("searchButton").style.color = "white";
-    }
-    setShowSearchPalette(false);
+  const HideDropDown = (e) =>  {
+    useEffect(() => {
+      if(typeof document !== "undefined") {
+        const searchButton = document.getElementById("searchButton");
+
+        if(theme === 'dark') {
+          searchButton.style.backgroundColor = "white";
+          searchButton.style.color = "black";
+        } else {
+          searchButton.style.backgroundColor = "black";
+          searchButton.style.color = "white";
+        }
+        setShowSearchPalette(false);
+      }
+    }, []);
   }
 
   return (
@@ -150,10 +161,10 @@ export const Navbar = () => {
                     }
                     <Link 
                       id="searchButton"
-                      onClick={hideDropDown} 
-                      href={`/color?hex=${searchText.includes('#') ? searchText.substring(1) : searchText}`} 
+                      onClick={HideDropDown} 
+                      href={`/color?hex=${searchText.indexOf('#') > -1 ? searchText.substring(1) : searchText}`} 
                       style={{
-                        backgroundColor: `${searchText.includes('#') ? searchText : '#' + searchText}`,
+                        backgroundColor: `${searchText.indexOf('#') > -1 ? searchText : '#' + searchText}`,
                         color: `${searchText ? (tinycolor(searchText).isLight() ? 'black' : 'white') : (theme === 'dark' ? 'black' : 'white')}`,
                         transition: `background-color 0.5s ease, color 0.5s ease`
                       }}
@@ -208,10 +219,10 @@ export const Navbar = () => {
           </div>
           <Link 
             id="searchButton"
-            onClick={hideDropDown} 
-            href={`/color?hex=${searchText.includes('#') ? searchText.substring(1) : searchText}`} 
+            onClick={HideDropDown} 
+            href={`/color?hex=${searchText.indexOf('#') > -1 ? searchText.substring(1) : searchText}`} 
             style={{
-              backgroundColor: `${searchText.includes('#') ? searchText : '#' + searchText}`,
+              backgroundColor: `${searchText.indexOf('#') > -1 ? searchText : '#' + searchText}`,
               color: `${searchText ? (tinycolor(searchText).isLight() ? 'black' : 'white') : (theme === 'dark' ? 'black' : 'white')}`,
               transition: `background-color 0.5s ease, color 0.5s ease`
             }}

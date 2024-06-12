@@ -12,23 +12,27 @@ const ThemeChanger = () => {
   if (!mounted) return null;
 
 
-  const handleButtonColors = (theme) =>  {
-    const searchButton = document.getElementById("searchButton");
-    if(!searchButton) return;
-    if(theme === 'dark') {
-      searchButton.style.backgroundColor = "white";
-      searchButton.style.color = "black";
-    } else {
-      searchButton.style.backgroundColor = "black";
-      searchButton.style.color = "white";
-    }
+  const HandleButtonColors = () =>  {
+    useEffect(() => {
+      if(typeof document !== "undefined") {
+        const searchButton = document.getElementById("searchButton");
+        if(!searchButton) return;
+        if(theme === 'dark') {
+          searchButton.style.backgroundColor = "white";
+          searchButton.style.color = "black";
+        } else {
+          searchButton.style.backgroundColor = "black";
+          searchButton.style.color = "white";
+        }
+      }
+    }, []);
   }
 
   return (
     <div className="flex items-center">
       {theme === "dark" ? (
         <button
-          onClick={() => {setTheme("light"); handleButtonColors("light");}}
+          onClick={() => {setTheme("light"); HandleButtonColors();}}
           className="text-gray-300 rounded-full outline-none focus:outline-none">
           <span className="sr-only">Light Mode</span>
 
@@ -42,7 +46,7 @@ const ThemeChanger = () => {
         </button>
       ) : (
         <button
-          onClick={() =>  {setTheme("dark"); handleButtonColors("dark");}}
+          onClick={() =>  {setTheme("dark"); HandleButtonColors();}}
           className="text-gray-500 rounded-full outline-none focus:outline-none focus-visible:ring focus-visible:ring-gray-100 focus:ring-opacity-20">
           <span className="sr-only">Dark Mode</span>
           <svg
