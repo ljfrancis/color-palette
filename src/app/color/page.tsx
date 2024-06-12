@@ -8,7 +8,7 @@ import tinycolor from "tinycolor2";
 const ColorPage = () => {
 	const router = useRouter();
   const searchParams = useSearchParams();
-  let colorHex = searchParams.get('hex');
+  let colorHex = searchParams.get('hex') || '#000000';
 
   const tinyColor = tinycolor(colorHex);
   const tinyColorTint = tinycolor(colorHex);
@@ -22,6 +22,7 @@ const ColorPage = () => {
         <ColorBlock
           hex={colorHex} 
           height="20"
+          width="100"
         />
         <div className="flex flex-row my-4">
           <div className="grow-[1]">
@@ -29,6 +30,7 @@ const ColorPage = () => {
             <ColorBlock
               hex={compliment} 
               height="21"
+              width="100"
             />
           </div>
           <div className="flex flex-col grow-[2] ml-6">

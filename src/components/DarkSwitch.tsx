@@ -13,12 +13,14 @@ const ThemeChanger = () => {
 
 
   const handleButtonColors = (theme) =>  {
+    const searchButton = document.getElementById("searchButton");
+    if(!searchButton) return;
     if(theme === 'dark') {
-      document.getElementById("searchButton").style.backgroundColor = "white";
-      document.getElementById("searchButton").style.color = "black";
+      searchButton.style.backgroundColor = "white";
+      searchButton.style.color = "black";
     } else {
-      document.getElementById("searchButton").style.backgroundColor = "black";
-      document.getElementById("searchButton").style.color = "white";
+      searchButton.style.backgroundColor = "black";
+      searchButton.style.color = "white";
     }
   }
 

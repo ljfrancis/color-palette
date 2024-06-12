@@ -16,11 +16,9 @@ export default function Home() {
     <Container>
       <div>
         <ColorPicker
-          width={400}
           height={228}
           color={color}
           onChange={setColor}
-          hideHSV
         />
       </div>
 

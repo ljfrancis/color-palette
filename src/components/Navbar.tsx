@@ -27,17 +27,17 @@ export const Navbar = () => {
   const { theme, setTheme } = useTheme();
 
   window.addEventListener("click", (e) => {
-    console.log(e.target.className)
-    if(!e?.target?.className || typeof e.target.className != 'string') return;
+    const target = (e?.target as HTMLInputElement)
+    if(!target?.className || typeof target.className != 'string') return;
     const classNames = ["searchBar", "rcp-saturation", "rcp-hue", "rcp-body", "rcp-section", "rcp-field-label", "rcp-fields", "rcp-alpha-cursor", "rcp-alpha"];
 
     let hideDropDown = true;
-    if(["hex", "rgb", "hsv"].includes(e.target.id)) {
+    if(["hex", "rgb", "hsv"].includes(target.id)) {
       hideDropDown = false;
     } 
 
     classNames.map(c => {
-      if(e.target.className.indexOf(c) > -1) hideDropDown = false;
+      if(target.className.indexOf(c) > -1) hideDropDown = false;
     })
 
     if(hideDropDown) setShowSearchPalette(false);
@@ -141,11 +141,9 @@ export const Navbar = () => {
                           className="absolute top-36 left-8 z-10 w-80 h-48"
                         >
                           <ColorPicker
-                            width={400}
                             height={228}
                             color={color}
                             onChange={handleDropDownChange}
-                            hideHSV
                           />
                         </div>
                       ) 
@@ -200,11 +198,9 @@ export const Navbar = () => {
                   className="absolute top-24 right-24 z-10 w-80 h-48"
                 >
                   <ColorPicker
-                    width={400}
                     height={228}
                     color={color}
                     onChange={handleDropDownChange}
-                    hideHSV
                   />
                 </div>
               ) 
