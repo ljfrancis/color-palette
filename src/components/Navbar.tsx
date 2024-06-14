@@ -27,27 +27,31 @@ export const Navbar = () => {
   const { theme, setTheme } = useTheme();
 
 
-  useEffect(() => {
-    if(typeof window !== "undefined") {
-      window.addEventListener("click", (e) => {
-        const target = (e?.target as HTMLInputElement)
-        if(!target?.className || typeof target.className != 'string') return;
-        const classNames = ["searchBar", "rcp-saturation", "rcp-hue", "rcp-body", "rcp-section", "rcp-field-label", "rcp-fields", "rcp-alpha-cursor", "rcp-alpha"];
+  const DropDownClickListener = () =>  {
+    useEffect(() => {
+      if(typeof window !== "undefined") {
+        window.addEventListener("click", (e) => {
+          const target = (e?.target as HTMLInputElement)
+          if(!target?.className || typeof target.className != 'string') return;
+          const classNames = ["searchBar", "rcp-saturation", "rcp-hue", "rcp-body", "rcp-section", "rcp-field-label", "rcp-fields", "rcp-alpha-cursor", "rcp-alpha"];
 
-        let hideDropDown = true;
-        if(["hex", "rgb", "hsv"].includes(target.id)) {
-          hideDropDown = false;
-        } 
+          let hideDropDown = true;
+          if(["hex", "rgb", "hsv"].includes(target.id)) {
+            hideDropDown = false;
+          } 
 
-        classNames.map(c => {
-          if(target.className.indexOf(c) > -1) hideDropDown = false;
-        })
+          classNames.map(c => {
+            if(target.className.indexOf(c) > -1) hideDropDown = false;
+          })
 
-        if(hideDropDown) setShowSearchPalette(false);
+          if(hideDropDown) setShowSearchPalette(false);
 
-      });
-    }
-  }, []);
+        });
+      }
+    }, []);
+  }
+
+  DropDownClickListener();
 
   const handleSearchChange = async (e) =>  {
     let cleanSearchText = e.target.value;
