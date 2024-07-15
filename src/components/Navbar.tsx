@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
 import ThemeChanger from "./DarkSwitch";
-import Image from "next/image"
+import Image from "next/image";
 import { Disclosure } from "@headlessui/react";
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/css";
@@ -12,69 +12,79 @@ import { useTheme } from "next-themes";
 
 export const Navbar = () => {
   const navigation = [
-    // "Palette Generator",
-    // "Saved Palettes",
+    "Palette Generator",
+    //"Saved Palettes",
   ];
 
   const paths = [
     "generator",
-    "palettes",
+    //"palettes",
   ];
 
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState("");
   const [showSearchPalette, setShowSearchPalette] = useState(false);
   const [color, setColor] = useColor("#000000");
   const { theme, setTheme } = useTheme();
 
-
-  const DropDownClickListener = () =>  {
+  // Hide search color picker when clicked outside of ColorPicker or search
+  const DropDownClickListener = () => {
     useEffect(() => {
-      if(typeof window !== "undefined") {
+      if (typeof window !== "undefined") {
         window.addEventListener("click", (e) => {
-          const target = (e?.target as HTMLInputElement)
-          if(!target?.className || typeof target.className != 'string') return;
-          const classNames = ["searchBar", "rcp-saturation", "rcp-hue", "rcp-body", "rcp-section", "rcp-field-label", "rcp-fields", "rcp-alpha-cursor", "rcp-alpha"];
+          const target = e?.target as HTMLInputElement;
+          if (!target?.className || typeof target.className != "string") return;
+          const classNames = [
+            "searchBar",
+            "rcp-saturation",
+            "rcp-hue",
+            "rcp-body",
+            "rcp-section",
+            "rcp-field-label",
+            "rcp-fields",
+            "rcp-alpha-cursor",
+            "rcp-alpha",
+          ];
 
           let hideDropDown = true;
-          if(["hex", "rgb", "hsv"].includes(target.id)) {
+          if (["hex", "rgb", "hsv"].includes(target.id)) {
             hideDropDown = false;
-          } 
+          }
 
-          classNames.map(c => {
-            if(target.className.indexOf(c) > -1) hideDropDown = false;
-          })
+          classNames.map((c) => {
+            if (target.className.indexOf(c) > -1) hideDropDown = false;
+          });
 
-          if(hideDropDown) setShowSearchPalette(false);
-
+          if (hideDropDown) setShowSearchPalette(false);
         });
       }
     }, []);
-  }
+  };
 
   DropDownClickListener();
 
-  const handleSearchChange = async (e) =>  {
+  const handleSearchChange = async (e) => {
     let cleanSearchText = e.target.value;
     setSearchText(cleanSearchText);
-  }
+  };
 
-  const handleDropDownChange = async (e) =>  {
+  const handleDropDownChange = async (e) => {
     setColor(e);
     setSearchText(e.hex);
     setShowSearchPalette(true);
-  }
+  };
 
-  const showDropDown = async (e) =>  {
-    console.log('showDropDown')
+  const showDropDown = async (e) => {
+    console.log("showDropDown");
     setShowSearchPalette(true);
-  }
+  };
 
-  const HideDropDown = (e) =>  {
+  const HideDropDown = (e) => {
     useEffect(() => {
-      if(typeof document !== "undefined") {
+      if (typeof document !== "undefined") {
         const searchButton = document.getElementById("searchButton");
 
-        if(theme === 'dark') {
+        //update button to original color
+        if (theme === "dark") {
           searchButton.style.backgroundColor = "white";
           searchButton.style.color = "black";
         } else {
@@ -84,38 +94,66 @@ export const Navbar = () => {
         setShowSearchPalette(false);
       }
     }, []);
-  }
+  };
 
   return (
     <div className="w-full">
       <nav className="container relative flex flex-wrap items-center justify-between p-8 mx-auto lg:justify-between xl:px-0">
-        {/* Logo  */}
         <Disclosure>
           {({ open }) => (
             <>
               <div className="flex flex-wrap items-center justify-between w-full lg:w-auto">
-                <Link href="/">
-                  <span className="flex items-center space-x-2 text-2xl font-medium text-gray-600 dark:text-gray-100">
-                    <span>
-                      <Image
-                        src={theme === 'dark' ? "/img/logo-white.svg" : "/img/logo.svg"}
-                        alt="N"
-                        width="32"
-                        height="32"
-                        className="w-8"
-                      />
+                <div className="flex justify-start">
+                  {/* Logo */}
+                  <Link href="/">
+                    <span className="flex items-center space-x-2 text-2xl font-medium text-gray-600 dark:text-gray-100">
+                      <span>
+                        <Image
+                          src={
+                            theme === "dark"
+                              ? "/img/logo-white.svg"
+                              : "/img/logo.svg"
+                          }
+                          alt="N"
+                          width="32"
+                          height="32"
+                          className="w-8"
+                        />
+                      </span>
+                      <span>Color Picker</span>
                     </span>
-                    <span>Color Picker</span>
-                  </span>
-                </Link>
+                  </Link>
 
+                  {/* browser menu items */}
+                  <div className="hidden text-center lg:flex lg:items-center">
+                    <ul className="items-center justify-end flex-1 pt-6 list-none lg:pt-0 lg:flex">
+                      {navigation.map((menu, index) => {
+                        const path = `/${paths[index]}`;
+                        return (
+                          <li className="mr-3 nav__item" key={index}>
+                            <Link
+                              href={path}
+                              className="inline-block px-8 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:text-gray-400 dark:hover:text-gray-300 focus:text-gray-400 focus:text-gray-100 focus:outline-none dark:focus:bg-gray-800"
+                            >
+                              {menu}
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                </div>
+
+                {/* mobile hamburder menu toggle */}
                 <Disclosure.Button
                   aria-label="Toggle Menu"
-                  className="px-2 py-1 ml-auto text-gray-500 rounded-md lg:hidden hover:text-gray-400  focus:text-gray-400 focus:text-gray-100 focus:outline-none dark:text-gray-300 dark:focus:bg-trueGray-700">
+                  className="px-2 py-1 ml-auto text-gray-500 rounded-md lg:hidden hover:text-gray-400  focus:text-gray-400 focus:text-gray-100 focus:outline-none dark:text-gray-300 dark:focus:bg-trueGray-700"
+                >
                   <svg
                     className="w-6 h-6 fill-current"
                     xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24">
+                    viewBox="0 0 24 24"
+                  >
                     {open && (
                       <path
                         fillRule="evenodd"
@@ -132,15 +170,21 @@ export const Navbar = () => {
                   </svg>
                 </Disclosure.Button>
 
-                <Disclosure.Panel className="flex flex-wrap w-full my-5 lg:hidden">
+                {/* mobile menu search */}
+                <Disclosure.Panel className="flex flex-wrap w-full my-5 -ml lg:hidden">
                   <>
+                    {/* mobile menu items */}
                     {navigation.map((item, index) => {
                       const path = `/${paths[index]}`;
                       return (
-                        <Link key={index} href={path} className="w-full px-4 py-2 -ml-4 text-gray-500 rounded-md dark:text-gray-300 hover:text-gray-400 focus:text-gray-400 focus:text-gray-100 dark:focus:bg-gray-800 focus:outline-none">
+                        <Link
+                          key={index}
+                          href={path}
+                          className="w-full px-4 py-2 -ml-4 text-gray-500 rounded-md dark:text-gray-300 hover:text-gray-400 focus:text-gray-400 focus:text-gray-100 dark:focus:bg-gray-800 focus:outline-none"
+                        >
                           {item}
                         </Link>
-                      )
+                      );
                     })}
                     <input
                       type="text"
@@ -150,30 +194,28 @@ export const Navbar = () => {
                       onFocus={showDropDown}
                       className="searchBar border-2 border-slate-300 rounded-md p-2 mr-2 w-40"
                     />
-                    {
-                      showSearchPalette && (
-                        <div
-                          className="absolute top-36 left-8 z-10 w-80 h-48"
-                        >
-                          <ColorPicker
-                            height={228}
-                            color={color}
-                            onChange={handleDropDownChange}
-                          />
-                        </div>
-                      ) 
-                    }
-                    <Link 
+                    {showSearchPalette && (
+                      <div className="absolute top-36 left-8 z-10 w-80 h-48">
+                        <ColorPicker
+                          height={228}
+                          color={color}
+                          onChange={handleDropDownChange}
+                          hideInput={["hsv"]}
+                        />
+                      </div>
+                    )}
+                    <Link
                       id="searchButton"
-                      onClick={HideDropDown} 
-                      href={`/color?hex=${searchText.indexOf('#') > -1 ? searchText.substring(1) : searchText}`} 
+                      onClick={HideDropDown}
+                      href={`/color?hex=${searchText.indexOf("#") > -1 ? searchText.substring(1) : searchText}`}
                       style={{
-                        backgroundColor: `${searchText.indexOf('#') > -1 ? searchText : '#' + searchText}`,
-                        color: `${searchText ? (tinycolor(searchText).isLight() ? 'black' : 'white') : (theme === 'dark' ? 'black' : 'white')}`,
-                        transition: `background-color 0.5s ease, color 0.5s ease`
+                        backgroundColor: `${searchText.indexOf("#") > -1 ? searchText : "#" + searchText}`,
+                        color: `${searchText ? (tinycolor(searchText).isLight() ? "black" : "white") : theme === "dark" ? "black" : "white"}`,
+                        transition: `background-color 0.5s ease, color 0.5s ease`,
                       }}
-                      className="px-6 py-2 text-white bg-black dark:text-black dark:bg-white rounded-md md:ml-5">
-                        Search
+                      className="px-6 py-2 text-white bg-black dark:text-black dark:bg-white rounded-md md:ml-5"
+                    >
+                      Search
                     </Link>
                   </>
                 </Disclosure.Panel>
@@ -182,20 +224,7 @@ export const Navbar = () => {
           )}
         </Disclosure>
 
-        {/* menu  */}
-        <div className="hidden text-center lg:flex lg:items-center">
-          <ul className="items-center justify-end flex-1 pt-6 list-none lg:pt-0 lg:flex">
-            {navigation.map((menu, index) => {
-              const path = `/${paths[index]}`;
-              return (
-              <li className="mr-3 nav__item" key={index}>
-                <Link href={path} className="inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:text-gray-400 dark:hover:text-gray-300 focus:text-gray-400 focus:text-gray-100 focus:outline-none dark:focus:bg-gray-800">
-                    {menu}
-                </Link>
-              </li>
-            )})}
-          </ul>
-        </div>
+        {/* browser menu search */}
 
         <div className="hidden mr-3 space-x-4 lg:flex nav__item">
           <div>
@@ -207,38 +236,34 @@ export const Navbar = () => {
               onFocus={showDropDown}
               className="searchBar border-2 border-slate-300 rounded-md p-2"
             />
-            {
-              showSearchPalette && (
-                <div
-                  className="absolute top-24 right-24 z-10 w-80 h-48"
-                >
-                  <ColorPicker
-                    height={228}
-                    color={color}
-                    onChange={handleDropDownChange}
-                  />
-                </div>
-              ) 
-            }
+            {showSearchPalette && (
+              <div className="absolute top-24 right-24 z-10 w-80 h-48">
+                <ColorPicker
+                  height={228}
+                  color={color}
+                  onChange={handleDropDownChange}
+                  hideInput={["hsv"]}
+                />
+              </div>
+            )}
           </div>
-          <Link 
+          <Link
             id="searchButton"
-            onClick={HideDropDown} 
-            href={`/color?hex=${searchText.indexOf('#') > -1 ? searchText.substring(1) : searchText}`} 
+            onClick={HideDropDown}
+            href={`/color?hex=${searchText.indexOf("#") > -1 ? searchText.substring(1) : searchText}`}
             style={{
-              backgroundColor: `${searchText.indexOf('#') > -1 ? searchText : '#' + searchText}`,
-              color: `${searchText ? (tinycolor(searchText).isLight() ? 'black' : 'white') : (theme === 'dark' ? 'black' : 'white')}`,
-              transition: `background-color 0.5s ease, color 0.5s ease`
+              backgroundColor: `${searchText.indexOf("#") > -1 ? searchText : "#" + searchText}`,
+              color: `${searchText ? (tinycolor(searchText).isLight() ? "black" : "white") : theme === "dark" ? "black" : "white"}`,
+              transition: `background-color 0.5s ease, color 0.5s ease`,
             }}
-            className="px-6 py-2 text-white bg-black dark:text-black dark:bg-white rounded-md md:ml-5">
-              Search
+            className="px-6 py-2 text-white bg-black dark:text-black dark:bg-white rounded-md md:ml-5"
+          >
+            Search
           </Link>
 
-          <ThemeChanger/>
+          <ThemeChanger />
         </div>
-
       </nav>
     </div>
   );
-}
-
+};

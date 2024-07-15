@@ -11,22 +11,22 @@
   }
 }
 
-a.hex-text-white {
+.hex-text-white {
   color: white;
 }
 
 
-a.hex-text-black {
+.hex-text-black {
   color: black;
 }
 
 
-a.hex-text-white:hover {
+.hex-text-white:hover {
   opacity: 0.8;
 }
 
 
-a.hex-text-black:hover {
+.hex-text-black:hover {
   opacity: 0.6;
 }
 

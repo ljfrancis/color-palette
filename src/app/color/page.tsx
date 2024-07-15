@@ -10,6 +10,7 @@ function ColorBlocks() {
   let colorHex = searchParams.get("hex") || "#000000";
   colorHex = colorHex.toLowerCase();
 
+  //Adjacent colors
   const tinyColor = tinycolor(colorHex);
   const tinyColorTint = tinycolor(colorHex);
   const tinyColorShade = tinycolor(colorHex);
@@ -21,6 +22,7 @@ function ColorBlocks() {
   const analogous1 = tinyColor.spin(40).toHex();
   const analogous2 = tinyColor.spin(-80).toHex();
 
+  //calculate lighter and darker shades
   const tints = [
     tinyColorTint.brighten(6).toHex(),
     tinyColorTint.brighten(6).toHex(),

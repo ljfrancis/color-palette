@@ -3,14 +3,14 @@
 ## Features
 
 - Built with Next.js & Tailwind CSS
-- Search for colors to find hex values for the compliment, analogous, triadic colors, tints and shades. 
+- Search for colors to find hex values for the compliment, analogous, triadic colors, tints and shades
+- Palette Creator + Random Color Generator
 - Responsive
 - Light / Dark Mode
 
 
 ## Features in Progress
 
-- color palette generator 
 - user sessions to save palettes
 
 ### Created with Nextly

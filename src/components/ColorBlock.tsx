@@ -13,6 +13,7 @@ export function ColorBlock({ hex, width, height }) {
 				width: `${width}%`,
 			}}
 		>
+			{/* Hex name links to color detail page */}
 			<Link
 				className={`text-xs md:text-lg lg:text-2xl ${isLight ? "hex-text-black" : "hex-text-white"}`}
 				href={`/color?hex=${cleanHex}`}

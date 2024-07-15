@@ -11,10 +11,16 @@ import { useTheme } from "next-themes";
 export default function Home() {
   const { theme, setTheme } = useTheme();
   const [color, setColor] = useColor(theme === "dark" ? "#fff" : "#000");
+
   return (
     <Container>
       <div>
-        <ColorPicker height={228} color={color} onChange={setColor} />
+        <ColorPicker
+          height={228}
+          color={color}
+          onChange={setColor}
+          hideInput={["hsv"]}
+        />
       </div>
 
       <div className="mx-auto my-6 text-center">

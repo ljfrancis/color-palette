@@ -11,20 +11,19 @@ const ThemeChanger = () => {
 
   if (!mounted) return null;
 
+  //Force color of search button
   const HandleButtonColors = (newTheme) => {
-    //useEffect(() => {
-      if (typeof document !== "undefined") {
-        const searchButton = document.getElementById("searchButton");
-        if (!searchButton) return;
-        if (newTheme === "dark") {
-          searchButton.style.backgroundColor = "white";
-          searchButton.style.color = "black";
-        } else {
-          searchButton.style.backgroundColor = "black";
-          searchButton.style.color = "white";
-        }
+    if (typeof document !== "undefined") {
+      const searchButton = document.getElementById("searchButton");
+      if (!searchButton) return;
+      if (newTheme === "dark") {
+        searchButton.style.backgroundColor = "white";
+        searchButton.style.color = "black";
+      } else {
+        searchButton.style.backgroundColor = "black";
+        searchButton.style.color = "white";
       }
-    //}, []);
+    }
   };
 
   return (
