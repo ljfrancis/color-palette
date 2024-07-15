@@ -150,7 +150,7 @@ const Generator = () => {
 								width: `${windowWidth < 768 ? "80%" : !paletteColors.length ? "88%" : "16%"}`,
 							}}
 						>
-							<p className="addColorButton md:pt-24 pt-8 text-4xl cursor-pointer">
+							<p className="addColorButton md:pt-24 pt-8 text-4xl cursor-pointer text-black">
 								+
 							</p>
 							{/* Color picker to select new color added */}
